@@ -1,0 +1,30 @@
+#! python3
+# Finds largest folder in a directory tree
+
+import os
+folder = r'D:\SteamLibrary\steamapps\common'
+
+def big_folder(folder):
+    os.chdir(folder)
+    print()
+    big_size = 0
+    for files in os.listdir(folder):
+        if os.path.isdir(files):
+            dir_path = os.path.join(folder,files)
+            print("Getting size of:", os.path.basename(files))
+            if dir_size(dir_path) > big_size:
+                big_dir = os.path.basename(dir_path)
+                big_size = dir_size(dir_path)
+                print(dir_path, ">", big_size)
+    print(big_dir,"---", round((big_size/1024000),2), "mb")
+
+def dir_size(folder):
+    foldersize = 0
+    for root, dir, file in os.walk(folder):
+        for f in file:
+            file_path = os.path.join(root, f)
+            if os.path.isfile(file_path):
+                foldersize += os.path.getsize(file_path)
+    return foldersize
+
+big_folder(folder)
