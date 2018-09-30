@@ -1,0 +1,35 @@
+#! python3
+# Returns folders and files greater than 100mb
+
+import os
+
+folder1 = r'D:\SteamLibrary\steamapps\common'
+folder2 = r"E:\Games\Guild Wars 2"
+
+def find_big (root):
+
+    dirs = os.listdir(root)
+    for dir in dirs:
+        dir_path = os.path.join(root, dir)
+        if os.path.isdir(dir_path):
+            dir_size = foldersize(dir_path)
+            if dir_size > 1024000:
+                print (dir,"---",round((dir_size/1024000),2),"mb")
+    file_size(root)
+
+def foldersize(folder):
+    size = 0
+    for root, dirs, files in os.walk(folder):
+        for file in files:
+            file_path = os.path.join(root,file)
+            size += os.path.getsize(file_path)
+    return size
+
+def file_size(folder):
+    for file in os.listdir(folder):
+        file_path = os.path.join(folder, file)
+        if os.path.isfile(file_path) and os.path.getsize(file_path) > 1024000:
+            size = os.path.getsize(file_path)
+            print(file, round((size/1024000),2),"mb")
+
+find_big(folder2)
