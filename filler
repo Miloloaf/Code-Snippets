@@ -6,7 +6,7 @@
 
 import os, shutil, re
 
-folder = r"C:\Users\Myles Lam\Documents\Python_scripts\Python Tests\Filler"
+folder = r"C:\Users\XXX\Documents\Python_scripts\Python Tests\Filler"
 
 def filler(folder, prefix):
     start_number = 1
