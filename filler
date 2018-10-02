@@ -1,0 +1,40 @@
+#! python3
+
+# Finds all files with a given prefix such as spam001.txt, spam002.txt in a single folder
+# locates any gaps in the numbering (such as if there is a spam001.txt and spam003.txt but no spam002.txt).
+# Have the program rename all the later files to close this gap.
+
+import os, shutil, re
+
+folder = r"C:\Users\Myles Lam\Documents\Python_scripts\Python Tests\Filler"
+
+def filler(folder, prefix):
+    start_number = 1
+    files = [f for f in os.listdir(folder) if os.path.isfile(os.path.join(folder,f))]
+    prefix_files = [f for f in files if prefix in f]
+    no_files = len(prefix_files)
+
+    re_search = re.compile((prefix)+"(\d{3})(\..*)")
+
+    if no_files == 0:
+        print("Prefix not matched")
+
+    for i in prefix_files:
+        mo = re.match(re_search, i)
+        m1 = mo.group(1)  # number
+        m2 = mo.group(2)  # extension
+        current_file = os.path.join(folder, i)
+
+        if int(m1) == start_number:
+            print("Number increased")
+            start_number += 1
+
+            if i == prefix_files[-1]:
+                print("No files have been renamed")
+
+        else:
+            new_file_name = prefix+("%03d"%int(start_number))+mo.group(2)
+            print("Renamed file %s to %s" % (i, new_file_name))
+            shutil.move(current_file, os.path.join(folder, new_file_name))
+
+filler(folder,"spam")
